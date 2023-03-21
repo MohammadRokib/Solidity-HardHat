@@ -15,7 +15,7 @@ After installing solc in this directory to compile the ```SimpleStorage.sol``` W
 yarn solcjs --bin --abi --include-path node_modules/ --base-path . -o . SimpleSotrage.sol
 ```
 
-Here,
+Here,<br>
 ```--bin``` we want the binary file so added this.<br>
 ```--abi``` we want the ABI of the contract so added this.<br>
 ```--include-path node_modules/``` we want to add any contracts or files in our node modules.<br>
