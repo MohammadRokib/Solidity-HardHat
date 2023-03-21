@@ -32,3 +32,45 @@ The command for compiling the code is very big. We can add this as a script in t
 }
 ```
 Now we can just type ```yarn compile``` to compile the code.
+
+## ----------New----------
+After successfully compiling the smart contract. Now I will deploy the smart contract. We need a blockchain to deploy smart contract. We can create a private blockchain using ```Ganache```.
+
+Installing ganache:
+- Download Ganache from this link: [Ganache](https://trufflesuite.com/ganache/)
+- Make ganache executable with this command: ```sudo chmod a+x ganache-2.7.0-linux-x86_64.AppImage```
+  run this command from the directory where the downloaded file is.
+- Open ganache from the folder where it is in. Type this command: ```./ganache-2.7.0-linux-x86_64.AppImage```
+<br>
+
+Ganache will provide us the blockchain node. But to deploy our smart contract on the node we need ```ethers.js``` The ethers.js library aims to be a complete and compact library for interacting with the Ethereum Blockchain and its ecosystem. It was originally designed for use with ethers.io and has since expanded into a more general-purpose library.
+
+Installing ethers
+- Type this command to install ethers: ```yarn add ethers@5.7.2``` version of the ethers can seen in the package.json file.
+- Import ethers into deploy.js. To do that type ```const ethers = require("ethers");``` at top of deploy.js.
+- To connect the smart contract with the blockchain node provider type <br>
+```const provider = new ethers.providers.JsonRpcProvider("http://127.0.0.1:7545");``` into ```async fucntion main()``` of deploy.js
+- Then adding a new wallet so that we can sign new transactions. Type this into ```async function main()``` of deploy.js:
+```
+    const wallet = new ehters.Wallet(
+        "paste_a_private_key_from_ganache",
+        provider
+    );
+```
+- Reading the contract object (ABI and Binary file) to deploy the contract. To do that type this at the top of deploy.js: <br>
+```const fs = require("fs-extra");```
+- Then import ABI and the Binary file. Type this after wallet at ```async function main()``` in deploy.js: <br>
+```
+    const abi = fs.readFileSync("./SimpleStorage_sol_SimpleStorage.abi", "utf8");
+    const binary = fs.readFileSync("./SimpleStorage_sol_SimpleStorage.bin", "utf8");
+```
+
+Then I will create contract factory which is an object. It will deploy our smart contract on the Ganache blockchain node.
+- Type the below code after ```const abi``` and ```const binary``` at ```async function main()``` in deploy.js: <br>
+```const contractFactory = new ethers.ContractFactory(abi, binary, wallet);```
+- ***Optional*** Show a message to wait after ```contractFactory``` Type this: ```console.log("Deploying, please wait..."):```
+- To deploy the contract type this after the waiting message: <br>
+```const contract = await contractFactory.deploy();```
+  here await make sure that the code waits until the contract is doployed successfully.
+- To see the contract details type this: ```console.log(contract);```
+- Then, to compile the code from the terminal. Make sure that ganache is running. Type this to compile: ```node deploy.js```
