@@ -45,6 +45,8 @@ Installing ganache:
 
 Ganache will provide us the blockchain node. But to deploy our smart contract on the node we need ```ethers.js``` The ethers.js library aims to be a complete and compact library for interacting with the Ethereum Blockchain and its ecosystem. It was originally designed for use with ethers.io and has since expanded into a more general-purpose library.
 
+##
+
 Installing ethers
 - Type this command to install ethers: ```yarn add ethers@5.7.2``` version of the ethers can seen in the package.json file.
 - Import ethers into deploy.js. To do that type ```const ethers = require("ethers");``` at top of deploy.js.
@@ -64,6 +66,7 @@ Installing ethers
     const abi = fs.readFileSync("./SimpleStorage_sol_SimpleStorage.abi", "utf8");
     const binary = fs.readFileSync("./SimpleStorage_sol_SimpleStorage.bin", "utf8");
 ```
+##
 
 Then I will create contract factory which is an object. It will deploy our smart contract on the Ganache blockchain node.
 - Type the below code after ```const abi``` and ```const binary``` at ```async function main()``` in deploy.js: <br>
