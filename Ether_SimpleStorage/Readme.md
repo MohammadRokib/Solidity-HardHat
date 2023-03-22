@@ -33,7 +33,7 @@ The command for compiling the code is very big. We can add this as a script in t
 ```
 Now we can just type ```yarn compile``` to compile the code.
 
-## ----------New----------
+<br>
 After successfully compiling the smart contract. Now I will deploy the smart contract. We need a blockchain to deploy smart contract. We can create a private blockchain using ```Ganache```.
 
 Installing ganache:
@@ -77,3 +77,31 @@ Then I will create contract factory which is an object. It will deploy our smart
   here await make sure that the code waits until the contract is doployed successfully.
 - To see the contract details type this: ```console.log(contract);```
 - Then, to compile the code from the terminal. Make sure that ganache is running. Type this to compile: ```node deploy.js```
+
+## ----------New----------
+At this point we have deployed the contract successfully but still can't interact with it. We have a few functions defined in our smart contract ***SimpleStorage.sol***. They are:
+store (stores a function)
+retrieve (shows the stored function)
+addPerson (stores a name and a favorite number of a person)
+
+We can access these functions in the following way
+- ***retrieve*** <br>
+  ```const currentNumber = await contract.retrieve();``` storing the number in currentNumber
+  
+  ```console.log (currentNumber);``` output=> BigNumber { _hex: '0x00', _isBigNumber: true }<br>
+  The output is like this because JavaScript can't handle big numbers.
+  
+  ```console.log (currentNumber.toString());``` output=> 0<br>
+  Since the number is in string format JavaScript can process it.
+  
+  ```console.log (`Current Number: ${currentNumber.toString()}`);``` output=> Current Number: 0
+  
+- ***store*** <br>
+  ```const transactionResponse = await contract.store("23");``` passing the number 23<br>
+  The number is given in string format. As JavaScript can't process big numbers.
+  
+  ```const transactionReceipt = await transactionResponse.wait(1);``` waiting for one block confirmation
+  
+  ```const updatedCurrentNumber = await contract.retrieve();``` then retrieving the number we just saved
+  
+  ```console.log(`Current Number: ${updatedCurrentNumber.toString()}`);``` printing the saved number in the console
