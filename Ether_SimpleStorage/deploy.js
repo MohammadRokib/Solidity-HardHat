@@ -14,7 +14,7 @@ async function main() {
 
     // adding a wallet from ganache
     const wallet = new ethers.Wallet(
-        "0x0f3b99b0d933fdc248de70a222e74f00db84f2afc7c78df85b46e55067769e12",
+        "0xdb043e69ff8147ae7e3e34e40211cc7f6acdd6aedf91acd03e042d247bd3da1b",
         provider
     );
 
@@ -26,7 +26,21 @@ async function main() {
     const contractFactory = new ethers.ContractFactory(abi, binary, wallet);
     console.log("Deploying, please wait...");
     const contract = await contractFactory.deploy()
-    console.log(contract);
+    const deploymentReceipt = await contract.deployTransaction.wait(1); // wait for 1 confirmation
+    // console.log(contract);
+
+    // interacting with the contract
+    // ##--retrieve--##
+    const currentNumber = await contract.retrieve();
+    console.log(currentNumber); // output=> BigNumber { _hex: '0x00', _isBigNumber: true }
+    console.log(currentNumber.toString());                      // output=> 0
+    console.log(`Current Number: ${currentNumber.toString()}`); // output=> Current Number: 0
+
+    // ##--store--##
+    const transactionResponse = await contract.store("23");
+    const transactionReceipt = await transactionResponse.wait(1);
+    const updatedCurrentNumber = await contract.retrieve();
+    console.log(`Current Number: ${updatedCurrentNumber.toString()}`);
 }
 
 // it just calls the main function. and gives error message if any error occurs.
