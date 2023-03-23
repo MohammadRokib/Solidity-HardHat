@@ -133,11 +133,12 @@ This is where Environment Variables come to the play. This is a ```.env``` file 
 - ```process.env.RPC_URL```	 replace your rpc url with this in your code.
   Also delete the ```""``` around the rpc url.
 
+##
 After doing that our code will fetch the Private_Key and the RPC_URL from the ***.env*** file. And we can share our code without compromising sensitive data.
 
 Now when we push our project to github our .env file will also be pushed with all the other code. So to ingnore that I will create a file named ***.gitignore*** and type all the file names in it which we don't want to push in github. And then if we push our project to github the files mentioned in the ***.gitignore*** file won't be pushed.
 
-
+##
 Up untill now we were deploying our Smart Contracts on Ganache. Which is a local blockchain node. Now we will deploy our smart contract on a real testnet. For that we will use a third-party RPC URL. There are so many options like: [Alchemy](https://www.alchemy.com/), [QuickNode](https://www.quicknode.com/), [Moralis](https://moralis.io/), [Infura](https://www.infura.io/)
 
 I am going to use. Feel free to use any one of them. If you are continuing with Alchemy then go to this link [Alchemy](https://www.alchemy.com/). Then create a free account. When you are in the dashboard page clck on ```+CREATE APP```. Then select any testnet availabe. I am using ***Sepolia*** give a name and description.
