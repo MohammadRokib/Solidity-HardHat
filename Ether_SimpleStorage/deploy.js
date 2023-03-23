@@ -4,19 +4,19 @@ const ethers = require("ethers");
 // to read the ABI and Binary file. we need them to deploy our contract
 const fs = require("fs-extra");
 
+// importing the .env file
+require("dotenv").config();
+
 // async function is a function which can wait for the contract to deploy.
 // functions which are not async doesn't wait for the contract to deploy.
 async function main() {
     // http://127.0.0.1:7545
-    const provider = new ethers.providers.JsonRpcProvider("http://127.0.0.1:7545");
+    const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL);
     // this script tells to connect to the local blockchain node which is
     // at http://127.0.0.1:7545
 
     // adding a wallet from ganache
-    const wallet = new ethers.Wallet(
-        "0xdb043e69ff8147ae7e3e34e40211cc7f6acdd6aedf91acd03e042d247bd3da1b",
-        provider
-    );
+    const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
 
     // to get the ABI and the Binary file
     const abi = fs.readFileSync("./SimpleStorage_sol_SimpleStorage.abi", "utf8");

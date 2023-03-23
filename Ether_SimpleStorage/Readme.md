@@ -76,9 +76,9 @@ Then I will create contract factory which is an object. It will deploy our smart
 ```const contract = await contractFactory.deploy();```
   here await make sure that the code waits until the contract is doployed successfully.
 - To see the contract details type this: ```console.log(contract);```
-- Then, to compile the code from the terminal. Make sure that ganache is running. Type this to compile: ```node deploy.js```
+- Then, to compile the code from the terminal. Make sure that ganache is running. Type this to compile: ```node deploy.js``` <br><br>
 
-## ----------New----------
+
 At this point we have deployed the contract successfully but still can't interact with it. We have a few functions defined in our smart contract ***SimpleStorage.sol***. They are:
 store (stores a function)
 retrieve (shows the stored function)
@@ -105,3 +105,51 @@ We can access these functions in the following way
   ```const updatedCurrentNumber = await contract.retrieve();``` then retrieving the number we just saved
   
   ```console.log(`Current Number: ${updatedCurrentNumber.toString()}`);``` printing the saved number in the console
+
+## ----------New----------
+At this point we have deployed and successfully interacted with our SimpleStorage.sol smart contract. But if we look into our code we can see our Private_Key and the RPC_URL.
+
+Now this is a test environment. The Private_Key and the RPC_URL used here are test data which we got from ganache. So if someone get access to these it wouldn't be a problem.
+
+But if the values were real value then with the Private_Key anyone can access the wallet and transfer all the currency and with the private key anyone can access our API. Which we don't want. But we still have to provide our Private_Key and the RPC_URL in our code.
+So how do we do this.
+
+This is where Environment Variables come to the play. This is a ```.env``` file which we will add into our project and we will store all our sensitive data in it. Then we will import the ***.env*** file where ever we need it and can use those sensitive data through the ***.env*** file.
+
+- ```yarn add dotenv``` type this in the terminal of your source code directory. <br>
+  This will install ***.env*** configurations on that directory.
+ 
+- Then create ***.env*** file in your source code directory.
+  Put all the sensitive data in it. I'm putting the Private_Key and the RPC_URL in it.
+  ```
+    PRIVATE_KEY=0x1071404bb4d5da2898a7c37dac393656ce03c674f05fdf06a8194a19d4e1a859
+    RPC_URL = http://127.0.0.1:7545
+  ```
+- ```require("dotenv").config();``` type this to import everything inside the ***.env*** file in your code.
+
+- ```process.env.PRIVATE_KEY```	 replace your private key with this in your code.
+  Also delete the ```""``` around the private key.
+
+- ```process.env.RPC_URL```	 replace your rpc url with this in your code.
+  Also delete the ```""``` around the rpc url.
+
+After doing that our code will fetch the Private_Key and the RPC_URL from the ***.env*** file. And we can share our code without compromising sensitive data.
+
+Now when we push our project to github our .env file will also be pushed with all the other code. So to ingnore that I will create a file named ***.gitignore*** and type all the file names in it which we don't want to push in github. And then if we push our project to github the files mentioned in the ***.gitignore*** file won't be pushed.
+
+
+Up untill now we were deploying our Smart Contracts on Ganache. Which is a local blockchain node. Now we will deploy our smart contract on a real testnet. For that we will use a third-party RPC URL. There are so many options like: [Alchemy](https://www.alchemy.com/), [QuickNode](https://www.quicknode.com/), [Moralis](https://moralis.io/), [Infura](https://www.infura.io/)
+
+I am going to use. Feel free to use any one of them. If you are continuing with Alchemy then go to this link [Alchemy](https://www.alchemy.com/). Then create a free account. When you are in the dashboard page clck on ```+CREATE APP```. Then select any testnet availabe. I am using ***Sepolia*** give a name and description.
+
+After creating the App click on it. You can see all the descriptions of the App. On the top right corner there are 3 buttons. ```VIEW KEY``` ```ADD TO WALLET``` ```EDIT APP```. Click on the ***VIEW KEY*** button and copy the HTTPS link. This will be the RPC_URL. Paste it in the ***.env*** file in your project.
+
+Then open metamask and click on the 3 dots on the top right corner then
+```
+Account Details -> Export Private key -> Give your password -> click Confirm
+```
+Then copy the private key and paste it in the ***.env*** file in your project.
+
+***NOTE:*** if you don't have a metamask wallet first create one.
+
+After doing all that if you run the code it will run on Sepolia blockchain through Alchemy.
